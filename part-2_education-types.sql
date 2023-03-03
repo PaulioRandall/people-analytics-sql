@@ -1,5 +1,5 @@
 
-DROP TABLE IF EXISTS education_type CASCADE;
+DROP TABLE IF EXISTS education_types CASCADE;
 
 -- Results:
 -- + number_of_education_types = 4
