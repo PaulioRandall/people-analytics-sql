@@ -56,6 +56,6 @@ DROP COLUMN job_level;
 -- Select all employees with their job level details.
 SELECT *
 FROM employees AS e
-JOIN job_levels AS jl
+INNER JOIN job_levels AS jl
 	ON e.fk_job_level_id = jl.id
 ORDER BY e.employee_id;

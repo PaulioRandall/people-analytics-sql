@@ -17,6 +17,10 @@ FROM employees;
 ALTER TABLE employees
 RENAME COLUMN location TO work_location_type;
 
+-- Renaming location city in employees table for clarity.
+ALTER TABLE employees
+RENAME COLUMN location_city TO work_location_city;
+
 -- Create an work location types dictionary table.
 CREATE TABLE work_location_types (
 	id SERIAL PRIMARY KEY,
@@ -61,6 +65,6 @@ DROP COLUMN work_location_type;
 -- Select all employees with their work location details.
 SELECT *
 FROM employees AS e
-JOIN work_location_types AS wlt
+INNER JOIN work_location_types AS wlt
 	ON e.fk_work_location_type_id = wlt.id
 ORDER BY e.employee_id;

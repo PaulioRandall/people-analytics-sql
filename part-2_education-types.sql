@@ -61,6 +61,6 @@ DROP COLUMN education_type;
 -- Select all employees with their education details.
 SELECT *
 FROM employees AS e
-JOIN education_types AS et
+INNER JOIN education_types AS et
 	ON e.fk_education_type_id = et.id
 ORDER BY e.employee_id;

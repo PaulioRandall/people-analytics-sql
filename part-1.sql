@@ -1,4 +1,5 @@
 -- Dataset: People Analytics Starter (https://www.stevenshoemaker.me/datasets/starter)
+-- Unfortunatly, I could not find full metadata for the columns so I'm going on best guess.
 
 -- Delete the main table and any dependees.
 --

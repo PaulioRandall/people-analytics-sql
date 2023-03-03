@@ -24,7 +24,7 @@ INSERT INTO genders (name)
 SELECT DISTINCT(gender) AS name
 FROM employees;
 
--- Select all job levels.
+-- Select all genders.
 SELECT *
 FROM genders;
 
@@ -56,13 +56,6 @@ DROP COLUMN gender;
 -- Select all employees with their gender details.
 SELECT *
 FROM employees AS e
-JOIN genders AS g
+INNER JOIN genders AS g
 	ON e.fk_gender_id = g.id
 ORDER BY e.employee_id;
-
-
-
-
-
-
-

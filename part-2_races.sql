@@ -56,23 +56,6 @@ DROP COLUMN race;
 -- Select all employees with their race details.
 SELECT *
 FROM employees AS e
-JOIN races AS r
+INNER JOIN races AS r
 	ON e.fk_race_id = r.id
 ORDER BY e.employee_id;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

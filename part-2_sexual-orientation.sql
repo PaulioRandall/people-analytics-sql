@@ -57,6 +57,6 @@ DROP COLUMN sexual_orientation;
 -- Select all employees with their sexual orientation details.
 SELECT *
 FROM employees AS e
-JOIN sexual_orientations AS so
+INNER JOIN sexual_orientations AS so
 	ON e.fk_sexual_orientation_id = so.id
 ORDER BY e.employee_id;
