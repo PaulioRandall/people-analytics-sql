@@ -41,8 +41,8 @@ FROM job_levels;
 ALTER TABLE employees
 ADD fk_job_level_id INT;
 
--- Constrains the new column as a foreign key to the id
--- column in the new job levels table.
+-- Constrains the new column as a foreign key to the
+-- primary key of the new job levels table.
 ALTER TABLE employees
 ADD CONSTRAINT fk_employees__fk_job_level_id
 FOREIGN KEY (fk_job_level_id)
@@ -87,7 +87,7 @@ ORDER BY e.employee_id;
 -- There is a lot of duplicity here which I could remove.
 --
 -- I can just delete all but the first manager columns then
--- rename the first to 'manager'.
+-- rename the first to 'manager_id'.
 --
 -- I can't see the reason for another table except as a
 -- linking table that links a manager with many employees.
@@ -120,7 +120,7 @@ OR fourth_level_manager = 5539617772;
 
 -- Renames the line manager column to manager.
 ALTER TABLE employees
-RENAME COLUMN first_level_manager TO manager;
+RENAME COLUMN first_level_manager TO manager_id;
 
 -- Remove second, third, and fourth level manager columns.
 ALTER TABLE employees

@@ -50,9 +50,9 @@ REFERENCES genders(id);
 -- Populates the foreign key values with the employees
 -- gender id.
 UPDATE employees e
-SET fk_gender_id = g.id
-FROM genders g 
-WHERE e.gender = g.name;
+SET fk_gender_id = ge.id
+FROM genders ge 
+WHERE e.gender = ge.name;
 
 -- Add a not null constraint to the new foreign key.
 ALTER TABLE employees
@@ -65,10 +65,10 @@ DROP COLUMN gender;
 -- Select all employees with their gender details.
 SELECT
 	e.employee_id,
-    g.name
+    ge.name
 FROM employees AS e
-LEFT JOIN genders AS g
-	ON e.fk_gender_id = g.id
+LEFT JOIN genders AS ge
+	ON e.fk_gender_id = ge.id
 ORDER BY e.employee_id;
 
 ---------------------------------

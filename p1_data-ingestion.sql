@@ -62,8 +62,7 @@ FROM employees;
 -- Counts the number of employees
 --
 -- Result: 4831
-SELECT
-	COUNT(employee_id) AS employee_count
+SELECT COUNT(employee_id) AS employee_count
 FROM employees;
 
 -- Count the employees in each department.

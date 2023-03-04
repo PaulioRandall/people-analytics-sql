@@ -1,3 +1,4 @@
+
 -- Delete the departments table and any dependees. 
 DROP TABLE IF EXISTS departments CASCADE;
 
