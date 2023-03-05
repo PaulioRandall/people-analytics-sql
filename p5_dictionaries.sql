@@ -1,13 +1,16 @@
 
+-- Looking at the remaning columns I can see potential for many other
+-- dictionary tables. This part will focus on creating them and altering the
+-- employees table accordingly.
+
 ---------------------
 ------ genders ------
 ---------------------
 
--- Remove genders table if rerunnng script;
+-- Removes genders table if rerunnng script;
 DROP TABLE IF EXISTS genders CASCADE;
 
--- Selects the number of genders and the length of the
--- longest gender name.
+-- Selects the number of genders and the length of the longest gender name.
 --
 -- Results:
 -- + number_of_genders = 3
@@ -17,7 +20,7 @@ SELECT
 	MAX(LENGTH(gender)) AS max_gender_name_length
 FROM employees;
 
--- Select all distinct genders.
+-- Selects all distinct genders.
 SELECT DISTINCT(gender)
 FROM employees;
 
@@ -32,7 +35,7 @@ INSERT INTO genders (name)
 SELECT DISTINCT(gender) AS name
 FROM employees;
 
--- Select all genders from the new genders table.
+-- Selects all genders from the new genders table.
 SELECT *
 FROM genders;
 
@@ -40,21 +43,21 @@ FROM genders;
 ALTER TABLE employees
 ADD fk_gender_id INT;
 
--- Constrains the new column as a foreign key to the
--- primary key of the new genders table.
+-- Constrains the new column as a foreign key to the primary key of the new
+-- genders table.
 ALTER TABLE employees
 ADD CONSTRAINT fk_employees__fk_gender_id
 FOREIGN KEY (fk_gender_id)
 REFERENCES genders(id);
 
--- Populates the foreign key values with the employees
--- gender id.
+-- Populates the foreign key values with the employees gender id.
 UPDATE employees e
 SET fk_gender_id = ge.id
 FROM genders ge 
 WHERE e.gender = ge.name;
 
--- Add a not null constraint to the new foreign key.
+-- Adds a not null constraint to the new gender ID column in the employees
+-- table.
 ALTER TABLE employees
 ALTER COLUMN fk_gender_id SET NOT NULL;
 
@@ -62,10 +65,10 @@ ALTER COLUMN fk_gender_id SET NOT NULL;
 ALTER TABLE employees
 DROP COLUMN gender;
 
--- Select all employees with their gender details.
+-- Selects all employees with their gender details.
 SELECT
 	e.employee_id,
-    ge.name
+	ge.name
 FROM employees AS e
 LEFT JOIN genders AS ge
 	ON e.fk_gender_id = ge.id
@@ -75,11 +78,10 @@ ORDER BY e.employee_id;
 ------ sexual_orientations ------
 ---------------------------------
 
--- Remove table if rerunnng script.
+-- Removes the table if rerunnng script.
 DROP TABLE IF EXISTS sexual_orientations CASCADE;
 
--- Selects the number of orientations and the length of the
--- longest name.
+-- Selects the number of orientations and the length of the longest name.
 --
 -- Results:
 -- + number_of_sexual_orientations = 5
@@ -99,8 +101,7 @@ CREATE TABLE sexual_orientations (
 	name VARCHAR(30) UNIQUE NOT NULL CHECK (name <> '')
 );
 
--- Inserts all unique sexual orientations into the new
--- dictionary table.
+-- Inserts all unique sexual orientations into the new dictionary table.
 INSERT INTO sexual_orientations (name)
 SELECT DISTINCT(sexual_orientation) AS name
 FROM employees;
@@ -113,15 +114,14 @@ FROM sexual_orientations;
 ALTER TABLE employees
 ADD fk_sexual_orientation_id INT;
 
--- Constrains the new column as a foreign key to the
--- primary key of the new sexual orientations table.
+-- Constrains the new column as a foreign key to the primary key of the new
+-- sexual orientations table.
 ALTER TABLE employees
 ADD CONSTRAINT fk_employees__fk_sexual_orientation_id
 FOREIGN KEY (fk_sexual_orientation_id)
 REFERENCES sexual_orientations(id);
 
--- Updates the new column values with the employees sexual
--- orientation id.
+-- Updates the new column values with the employees sexual orientation id.
 UPDATE employees e
 SET fk_sexual_orientation_id = so.id
 FROM sexual_orientations so 
@@ -148,11 +148,10 @@ ORDER BY e.employee_id;
 ------ races ------
 -------------------
 
--- Remove table if rerunnng script.
+-- Removes the table if rerunnng script.
 DROP TABLE IF EXISTS races CASCADE;
 
--- Selects the number of races and the length of the
--- longest race name.
+-- Selects the number of races and the length of the longest race name.
 --
 -- Results:
 -- + number_of_races = 6
@@ -185,8 +184,8 @@ FROM races;
 ALTER TABLE employees
 ADD fk_race_id INT;
 
--- Constrains the employee table race id column as a foreign key
--- to the primary key of the new races table.
+-- Constrains the employee table race id column as a foreign key to the
+-- primary key of the new races table.
 ALTER TABLE employees
 ADD CONSTRAINT fk_employees__fk_race_id
 FOREIGN KEY (fk_race_id)
@@ -202,14 +201,14 @@ WHERE e.race = r.name;
 ALTER TABLE employees
 ALTER COLUMN fk_race_id SET NOT NULL;
 
--- removes the old race column from the employees table.
+-- Removes the old race column from the employees table.
 ALTER TABLE employees
 DROP COLUMN race;
 
 -- Selects all employees with their race details.
 SELECT
 	e.employee_id,
-    r.name
+	r.name
 FROM employees AS e
 LEFT JOIN races AS r
 	ON e.fk_race_id = r.id
@@ -219,11 +218,11 @@ ORDER BY e.employee_id;
 ------ education_types ------
 -----------------------------
 
--- Remove table if rerunning script.
+-- Removes the table if rerunning script.
 DROP TABLE IF EXISTS education_types CASCADE;
 
--- Selects the number of education types and the length of
--- the longest type name.
+-- Selects the number of education types and the length of the longest type
+-- name.
 --
 -- Results:
 -- + number_of_education_types = 4
@@ -249,8 +248,7 @@ CREATE TABLE education_types (
 	name VARCHAR(30) UNIQUE NOT NULL CHECK (name <> '')
 );
 
--- Inserts all unique education types into the new education
--- type table.
+-- Inserts all unique education types into the new education type table.
 INSERT INTO education_types (name)
 SELECT DISTINCT(education_type) AS name
 FROM employees;
@@ -263,22 +261,21 @@ FROM education_types;
 ALTER TABLE employees
 ADD fk_education_type_id INT;
 
--- Relates the employees table to the education types table via
--- the education type column in the employees table.
+-- Relates the employees table to the education types table via the education
+-- type column in the employees table.
 ALTER TABLE employees
 ADD CONSTRAINT fk_employees__fk_education_type_id
 FOREIGN KEY (fk_education_type_id)
 REFERENCES education_types(id);
 
--- Updates the new column values with the employees education
--- type id.
+-- Updates the new column values with the employees education type id.
 UPDATE employees e
 SET fk_education_type_id = et.id
 FROM education_types et
 WHERE e.education_type = et.name;
 
--- Adds a not null constraint to the new education type column
--- in the employees table.
+-- Adds a not null constraint to the new education type column in the employees
+-- table.
 ALTER TABLE employees
 ALTER COLUMN fk_education_type_id SET NOT NULL;
 
@@ -289,7 +286,7 @@ DROP COLUMN education_type;
 -- Selects all employees with their education details.
 SELECT
 	e.employee_id,
-    et.name
+	et.name
 FROM employees AS e
 INNER JOIN education_types AS et
 	ON e.fk_education_type_id = et.id
@@ -299,11 +296,11 @@ ORDER BY e.employee_id;
 ------ work_location_types ------
 ---------------------------------
 
--- Remove table if rerunning script.
+-- Removes the table if rerunning script.
 DROP TABLE IF EXISTS work_location_types CASCADE;
 
--- Selects the number of work location types and the length
--- of the longest type name.
+-- Selects the number of work location types and the length of the longest type
+-- name.
 --
 -- Results:
 -- + number_of_work_location_types = 2
@@ -331,14 +328,13 @@ CREATE TABLE work_location_types (
 	name VARCHAR(30) UNIQUE NOT NULL CHECK (name <> '')
 );
 
--- Inserts all unique work location types into the new 
--- work location types table.
+-- Inserts all unique work location types into the new  work location types
+-- table.
 INSERT INTO work_location_types (name)
 SELECT DISTINCT(work_location_type) AS name
 FROM employees;
 
--- Selects all work location types from the new work location
--- types table.
+-- Selects all work location types from the new work location types table.
 SELECT *
 FROM work_location_types;
 
@@ -346,22 +342,21 @@ FROM work_location_types;
 ALTER TABLE employees
 ADD fk_work_location_type_id INT;
 
--- Relates the employees table to the work location types table
--- via the new work location type ID column in the employees table.
+-- Relates the employees table to the work location types table via the new
+-- work location type ID column in the employees table.
 ALTER TABLE employees
 ADD CONSTRAINT fk_employees__fk_work_location_type_id
 FOREIGN KEY (fk_work_location_type_id)
 REFERENCES work_location_types(id);
 
--- Updates the new column in the employees table with the employees
--- work location type id from the new work location types table.
+-- Updates the new column in the employees table with the employees work
+-- location type id from the new work location types table.
 UPDATE employees e
 SET fk_work_location_type_id = wlt.id
 FROM work_location_types wlt
 WHERE e.work_location_type = wlt.name;
 
--- Adds a not null constraint to the new column in the employees
--- table.
+-- Adds a not null constraint to the new column in the employees table.
 ALTER TABLE employees
 ALTER COLUMN fk_work_location_type_id SET NOT NULL;
 
@@ -372,7 +367,7 @@ DROP COLUMN work_location_type;
 -- Selects all employees with their work location details.
 SELECT
 	e.employee_id,
-    wlt.name
+	wlt.name
 FROM employees AS e
 INNER JOIN work_location_types AS wlt
 	ON e.fk_work_location_type_id = wlt.id
@@ -385,8 +380,8 @@ ORDER BY e.employee_id;
 -- Remove table if rerunning script.
 DROP TABLE IF EXISTS marital_statuses CASCADE;
 
--- Selects the number of marital statuses and the length of the
--- longest status name.
+-- Selects the number of marital statuses and the length of the longest status
+-- name.
 --
 -- Results:
 -- + number_of_marital_statuses = 2
@@ -406,8 +401,7 @@ CREATE TABLE marital_statuses (
 	name VARCHAR(30) UNIQUE NOT NULL CHECK (name <> '')
 );
 
--- Inserts all unique marital statuses into the new marital statuses
--- table.
+-- Inserts all unique marital statuses into the new marital statuses table.
 INSERT INTO marital_statuses (name)
 SELECT DISTINCT(marital_status) AS name
 FROM employees;
@@ -420,22 +414,20 @@ FROM marital_statuses;
 ALTER TABLE employees
 ADD fk_marital_status_id INT;
 
--- Relates the employees table to the marital statuses table
--- via the marital status ID column in the employees table.
+-- Relates the employees table to the marital statuses table via the marital
+-- status ID column in the employees table.
 ALTER TABLE employees
 ADD CONSTRAINT fk_employees__fk_marital_status_id
 FOREIGN KEY (fk_marital_status_id)
 REFERENCES marital_statuses(id);
 
--- Updates the new column values with the employees marital
--- status id.
+-- Updates the new column values with the employees marital status id.
 UPDATE employees e
 SET fk_marital_status_id = ms.id
 FROM marital_statuses ms
 WHERE e.marital_status = ms.name;
 
--- Adds a not null constraint to the new column in the employees
--- table.
+-- Adds a not null constraint to the new column in the employees table.
 ALTER TABLE employees
 ALTER COLUMN fk_marital_status_id SET NOT NULL;
 
@@ -446,7 +438,7 @@ DROP COLUMN marital_status;
 -- Selects all employees with their marital status.
 SELECT
 	e.employee_id,
-    ms.name
+	ms.name
 FROM employees AS e
 INNER JOIN marital_statuses AS ms
 	ON e.fk_marital_status_id = ms.id
@@ -456,11 +448,11 @@ ORDER BY e.employee_id;
 ------ employment_statuses ------
 ---------------------------------
 
--- Remove table if rerunning script.
+-- Removes the table if rerunning script.
 DROP TABLE IF EXISTS employment_statuses CASCADE;
 
--- Selects the number of employment statuses and the length of the
--- longest status name.
+-- Selects the number of employment statuses and the length of the longest
+-- status name.
 --
 -- Results:
 -- + number_of_employment_statuses = 2
@@ -480,8 +472,8 @@ CREATE TABLE employment_statuses (
 	name VARCHAR(30) UNIQUE NOT NULL CHECK (name <> '')
 );
 
--- Inserts all unique employment statuses into the new employment
--- statuses table.
+-- Inserts all unique employment statuses into the new employment statuses
+-- table.
 INSERT INTO employment_statuses (name)
 SELECT DISTINCT(employment_status) AS name
 FROM employees;
@@ -494,22 +486,21 @@ FROM employment_statuses;
 ALTER TABLE employees
 ADD fk_employment_status_id INT;
 
--- Relates the employees table to the employment statuses table
--- via the new employment status ID column in the employees table.
+-- Relates the employees table to the employment statuses table via the new
+-- employment status ID column in the employees table.
 ALTER TABLE employees
 ADD CONSTRAINT fk_employees__fk_employment_status_id
 FOREIGN KEY (fk_employment_status_id)
 REFERENCES employment_statuses(id);
 
--- Updates the new employment status ID column values with the
--- employees employment status id.
+-- Updates the new employment status ID column values with the employees
+-- employment status id.
 UPDATE employees e
 SET fk_employment_status_id = es.id
 FROM employment_statuses es
 WHERE e.employment_status = es.name;
 
--- Adds a not null constraint to the new column in the employees
--- table.
+-- Adds a not null constraint to the new column in the employees table.
 ALTER TABLE employees
 ALTER COLUMN fk_employment_status_id SET NOT NULL;
 
@@ -520,7 +511,7 @@ DROP COLUMN employment_status;
 -- Selects all employees with their employment status.
 SELECT
 	e.employee_id,
-    es.name
+	es.name
 FROM employees AS e
 INNER JOIN employment_statuses AS es
 	ON e.fk_employment_status_id = es.id
