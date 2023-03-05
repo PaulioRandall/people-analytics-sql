@@ -65,7 +65,7 @@ ORDER BY department;
 -- constrain the fields. We want to make sure future additions to this table
 -- always provide a unique combination of department and sub-department. This
 -- is because there are several sub-departments with the same name but
--- different parent departments.
+-- different parent departments. I've also prevented empty strings.
 CREATE TABLE departments (
 	id SERIAL PRIMARY KEY,
 	department     VARCHAR(30) NOT NULL CHECK (department <> ''),
